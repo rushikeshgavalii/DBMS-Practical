@@ -1,0 +1,535 @@
+Microsoft Windows [Version 10.0.26100.4770]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u root -p
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 33
+Server version: 8.0.43 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| ecommerce          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| school             |
+| startsql           |
+| student            |
+| sys                |
+| world              |
++--------------------+
+11 rows in set (0.04 sec)
+
+mysql> use mysql;
+Database changed
+mysql> Absoulute value
+    -> -- Absolute value
+    -> SELECT ABS(-50);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Absoulute value
+
+SELECT ABS(-50)' at line 1
+mysql> -- Get absolute value of -50
+mysql> SELECT ABS(-50);
++----------+
+| ABS(-50) |
++----------+
+|       50 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> -- Round up and down
+mysql> SELECT CEIL(5.2), FLOOR(5.8);
++-----------+------------+
+| CEIL(5.2) | FLOOR(5.8) |
++-----------+------------+
+|         6 |          5 |
++-----------+------------+
+1 row in set (0.01 sec)
+
+mysql> --Division
+    -> SELECT 10 DIV 3; -- Result: 3 (integer division)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Division
+SELECT 10 DIV 3' at line 1
+mysql> -- Division
+mysql> SELECT 10 DIV 3;
++----------+
+| 10 DIV 3 |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT 10 % 3;
++--------+
+| 10 % 3 |
++--------+
+|      1 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> -- Sign function
+mysql> SELECT SIGN(-10), SIGN(0), SIGN(15);
++-----------+---------+----------+
+| SIGN(-10) | SIGN(0) | SIGN(15) |
++-----------+---------+----------+
+|        -1 |       0 |        1 |
++-----------+---------+----------+
+1 row in set (0.02 sec)
+
+mysql> SELECT ROUND(123.4555, 2);
++--------------------+
+| ROUND(123.4555, 2) |
++--------------------+
+|             123.46 |
++--------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT TRUNCATE(123.4555,2);
++----------------------+
+| TRUNCATE(123.4555,2) |
++----------------------+
+|               123.45 |
++----------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT CONCAT('Dolly', '144');
++------------------------+
+| CONCAT('Dolly', '144') |
++------------------------+
+| Dolly144               |
++------------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT REPEAT('Dolly', 9);
++-----------------------------------------------+
+| REPEAT('Dolly', 9)                            |
++-----------------------------------------------+
+| DollyDollyDollyDollyDollyDollyDollyDollyDolly |
++-----------------------------------------------+
+1 row in set (0.02 sec)
+
+mysql> REVERSE('Dolly');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REVERSE('Dolly')' at line 1
+mysql> SELECT REVERSE ('Dolly');
++-------------------+
+| REVERSE ('Dolly') |
++-------------------+
+| ylloD             |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT INSER('Dolly','l');
+ERROR 1305 (42000): FUNCTION mysql.INSER does not exist
+mysql> SELECT INSERT('Dolly','l');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> -- Replace 'ol' in 'Dolly' with 'an'
+mysql> SELECT INSERT('Dolly', 2, 2, 'an');
++-----------------------------+
+| INSERT('Dolly', 2, 2, 'an') |
++-----------------------------+
+| Danly                       |
++-----------------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT ELT(2, 'alpha','beta', 'gamma');
++---------------------------------+
+| ELT(2, 'alpha','beta', 'gamma') |
++---------------------------------+
+| beta                            |
++---------------------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT LPAD('Dolly', 10, '*');
++------------------------+
+| LPAD('Dolly', 10, '*') |
++------------------------+
+| *****Dolly             |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT RPAD('Dolly', 10, '*');
++------------------------+
+| RPAD('Dolly', 10, '*') |
++------------------------+
+| Dolly*****             |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT INSERT('Dolly',4,2,'XYZ');
++---------------------------+
+| INSERT('Dolly',4,2,'XYZ') |
++---------------------------+
+| DolXYZ                    |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT LEFT('Dolly', 3);
++------------------+
+| LEFT('Dolly', 3) |
++------------------+
+| Dol              |
++------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT RIGHT('Dolly',3);
++------------------+
+| RIGHT('Dolly',3) |
++------------------+
+| lly              |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select power(4,3);
++------------+
+| power(4,3) |
++------------+
+|         64 |
++------------+
+1 row in set (0.02 sec)
+
+mysql> select sqrt(144);
++-----------+
+| sqrt(144) |
++-----------+
+|        12 |
++-----------+
+1 row in set (0.02 sec)
+
+mysql> SELECT CONCAT('hello',null,'word');
++-----------------------------+
+| CONCAT('hello',null,'word') |
++-----------------------------+
+| NULL                        |
++-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE emp(
+    -> empid INT PRIMARY KEY,
+    -> ename VARCHAR (50),
+    -> salary DECIMAL(10,2),
+    -> dept VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> desc emp;
++--------+---------------+------+-----+---------+-------+
+| Field  | Type          | Null | Key | Default | Extra |
++--------+---------------+------+-----+---------+-------+
+| empid  | int           | NO   | PRI | NULL    |       |
+| ename  | varchar(50)   | YES  |     | NULL    |       |
+| salary | decimal(10,2) | YES  |     | NULL    |       |
+| dept   | varchar(50)   | YES  |     | NULL    |       |
++--------+---------------+------+-----+---------+-------+
+4 rows in set (0.03 sec)
+
+mysql> INSERT INTO emp (empid,ename,salary,dept) VALUES
+    -> (1, 'Mohan', 40000, 'sales'),
+    -> (2,'Aarav', 60000, 'HR'),
+    -> (3, 'Ravi',45000,'IT'),
+    -> (4, 'Ankita' 70000, 'HR');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '70000, 'HR')' at line 5
+mysql> INSERT INTO emp (empid, ename, salary, dept) VALUES
+    -> (1, 'Mohan', 40000, 'sales'),
+    -> (2, 'Aarav', 60000, 'HR'),
+    -> (3, 'Ravi', 45000, 'IT'),
+    -> (4, 'Ankita', 70000, 'HR');
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc emp;
++--------+---------------+------+-----+---------+-------+
+| Field  | Type          | Null | Key | Default | Extra |
++--------+---------------+------+-----+---------+-------+
+| empid  | int           | NO   | PRI | NULL    |       |
+| ename  | varchar(50)   | YES  |     | NULL    |       |
+| salary | decimal(10,2) | YES  |     | NULL    |       |
+| dept   | varchar(50)   | YES  |     | NULL    |       |
++--------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM emp;
++-------+--------+----------+-------+
+| empid | ename  | salary   | dept  |
++-------+--------+----------+-------+
+|     1 | Mohan  | 40000.00 | sales |
+|     2 | Aarav  | 60000.00 | HR    |
+|     3 | Ravi   | 45000.00 | IT    |
+|     4 | Ankita | 70000.00 | HR    |
++-------+--------+----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) AS total_employee FROM emp;
++----------------+
+| total_employee |
++----------------+
+|              4 |
++----------------+
+1 row in set (0.03 sec)
+
+mysql> Sum of all salaries;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Sum of all salaries' at line 1
+mysql> SELECT SUM (salary) AS total_salary FROM emp;
+ERROR 1630 (42000): FUNCTION mysql.SUM does not exist. Check the 'Function Name Parsing and Resolution' section in the Reference Manual
+mysql> SELECT SUM(salary) AS total_salary FROM emp;
++--------------+
+| total_salary |
++--------------+
+|    215000.00 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG (salary) AS avg_salary FROM emp;
++--------------+
+| avg_salary   |
++--------------+
+| 53750.000000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MIN(salary) AS min_salary FROM emp;
++------------+
+| min_salary |
++------------+
+|   40000.00 |
++------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT dept, COUNT (*) AS emp_count
+    -> FROM emp
+    -> GROUP BY dept;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) AS emp_count
+FROM emp
+GROUP BY dept' at line 1
+mysql> SELECT dept, COUNT(*) AS emp_count
+    -> FROM emp
+    ->  GROUP BY dept;
++-------+-----------+
+| dept  | emp_count |
++-------+-----------+
+| sales |         1 |
+| HR    |         2 |
+| IT    |         1 |
++-------+-----------+
+3 rows in set (0.02 sec)
+
+mysql> SELECT dept, AVG(salary) > 40000;
+ERROR 1054 (42S22): Unknown column 'dept' in 'field list'
+mysql> SELECT dept, AVG(salary) AS avg_salary
+    -> FROM emp
+    -> GROUP BY dept
+    -> HAVING AVG(salary) >50000;
++------+--------------+
+| dept | avg_salary   |
++------+--------------+
+| HR   | 65000.000000 |
++------+--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CURDATE;
+ERROR 1054 (42S22): Unknown column 'CURDATE' in 'field list'
+mysql> SELECT CURDATE();
++------------+
+| CURDATE()  |
++------------+
+| 2025-08-10 |
++------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT NOW();
++---------------------+
+| NOW()               |
++---------------------+
+| 2025-08-10 22:49:23 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT ADDDATE(CURDATE(),INTERVAL 10 DAY);
++------------------------------------+
+| ADDDATE(CURDATE(),INTERVAL 10 DAY) |
++------------------------------------+
+| 2025-08-20                         |
++------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT LAST_DAY(CURDATE));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> SELECT LAST_DAY (CURDATE));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql>  SELECT LAST_DAY (CURDATE());
++----------------------+
+| LAST_DAY (CURDATE()) |
++----------------------+
+| 2025-08-31           |
++----------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT coloumn1 FROM table1
+    -> UNION
+    -> SELECT coloumn1 FROM table2;
+ERROR 1146 (42S02): Table 'mysql.table1' doesn't exist
+mysql> CREATE TABLE table1;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> SHOW TABLES;mysql> CREATE TABLE table1;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql>
+mysql>  CREATE TABLE table1 (;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> ^CATE TABLE table1 (
+mysql> CREATE TABLE table1 (
+    -> id INT PRIMARY KEY,
+    -> name VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM demo.table1;
+ERROR 1049 (42000): Unknown database 'demo'
+mysql> INSERT INTO table1 (id, name) VALUES(1,'vikky'), (2,'Dolly'), (3,'Ramesh'),
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> INSERT INTO table1 (id, name) VALUES
+    -> (1, 'vikky'),
+    -> (2, 'Dolly'),
+    -> (3, 'Ramesh');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM demo.table1;
+ERROR 1049 (42000): Unknown database 'demo'
+mysql>  SELECT * FROM table1;
++----+--------+
+| id | name   |
++----+--------+
+|  1 | vikky  |
+|  2 | Dolly  |
+|  3 | Ramesh |
++----+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT name FROM employee_us
+    -> UNION
+    -> SELECT name FROM employee_europe;
+ERROR 1146 (42S02): Table 'mysql.employee_us' doesn't exist
+mysql> CREATE TABLE employee_europe (
+    -> id INT PRIMARY KEY,
+    -> name  VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO employee_us VALUES (1,'vikky')(2, 'DOlly'),(3,'Ramesh');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(2, 'DOlly'),(3,'Ramesh')' at line 1
+mysql> INSERT INTO employee_us VALUES
+    -> (1, 'vikky'),
+    -> (2, 'DOlly'),
+    -> (3, 'Ramesh');
+ERROR 1146 (42S02): Table 'mysql.employee_us' doesn't exist
+mysql> CREATE DATABASE company;
+ERROR 1007 (HY000): Can't create database 'company'; database exists
+mysql> USE company;
+Database changed
+mysql> CREATE TABLE employee_us (
+    ->   id INT,
+    ->   name VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO employee_us VALUES
+    -> (1, 'vikky'),
+    -> (2, 'DOlly'),
+    -> (3, 'Ramesh');
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM employee_us;
++------+--------+
+| id   | name   |
++------+--------+
+|    1 | vikky  |
+|    2 | DOlly  |
+|    3 | Ramesh |
++------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT name FROM employee
+    ->
+    ->  SELECT name FROM employee
+    -> -us
+    -> WHERE name IN (SELECT name FROM employees
+    ->
+    -> -europe);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT name FROM employee
+-us
+WHERE name IN (SELECT name FROM employees
+
+-europe' at line 3
+mysql> SELECT name
+    -> FROM employee_us
+    -> WHERE name IN (
+    ->     SELECT name
+    ->     FROM employee_europe
+    -> );
+ERROR 1146 (42S02): Table 'company.employee_europe' doesn't exist
+mysql> show tables;
++-------------------+
+| Tables_in_company |
++-------------------+
+| college           |
+| employee_us       |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> ' at line 3
+    '> mysql> SELECT name
+    '>     -> FROM employee_us
+    '>     -> WHERE name IN (
+    '>     ->     SELECT name
+    '>     ->     FROM employee_europe
+    '>     -> );
+    '>     -> );
+    '>     ->     SELECT name
+    '>     -> FROM employee_us
+    '> WHERE name IN (
+    '> SELECT name
+    '> UNION
+    '> ;
+    '> ;
+    '> ghhj;
+    '> );
+    '> SELECT name
+    '> FROM employee_us
+    '> WHERE name IN (
+    '>     SELECT name
+    '>     FROM employee_us
+    '> );
+    '> ;
+    '> ^c
+    '> >'
+    -> +^C
+mysql> SELECT name
+    -> FROM employee_us
+    -> WHERE name IN(
+    -> SELECT name
+    -> FROM employee_us
+    -> );
++--------+
+| name   |
++--------+
+| vikky  |
+| DOlly  |
+| Ramesh |
++--------+
+3 rows in set (0.02 sec)
+
+mysql>
