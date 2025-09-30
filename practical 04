@@ -1,0 +1,115 @@
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.43 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++---------------------+
+| Database            |
++---------------------+
+| college_info        |
+| first               |
+| information_schema  |
+| mysql               |
+| performance_schema  |
+| university          |
+| university_database |
++---------------------+
+7 rows in set (0.02 sec)
+
+mysql> create database rushi;
+Query OK, 1 row affected (0.01 sec)
+mysql> use rushi;
+Database changed
+
+mysql> create table students (id int primary key, name varchar(50), age int, gender char(1), department varchar(50), enrollment_date date, cgpa decimal(3,2), is_active boolean, city varchar(50), created_at timestamp);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into students (id, name, age, gender, department, enrollment_date, cgpa, is_active, city, created_at) values (1, 'arjun sharma', 20, 'm', 'computer science', '2022-07-15', 8.5, true, 'delhi', current_timestamp), (2, 'meena rao', 21, 'f', 'electrical engineering', '2021-08-10', 8.9, true, 'mumbai', current_timestamp), (3, 'rahul verma', 19, 'm', 'mechanical', '2023-07-20', 7.8, true, 'bangalore', current_timestamp), (4, 'sita das', 22, 'f', 'civil', '2020-09-05', 8.2, false, 'kolkata', current_timestamp), (5, 'vijay singh', 23, 'm', 'computer science', '2019-07-01', 9.0, false, 'chennai', current_timestamp), (6, 'anita kumari', 20, 'f', 'electronics', '2022-08-12', 8.1, true, 'pune', current_timestamp), (7, 'dev joshi', 21, 'm', 'information technology', '2021-07-10', 7.9, true, 'hyderabad', current_timestamp), (8, 'priya yadav', 19, 'f', 'computer science', '2023-07-18', 8.4, true, 'lucknow', current_timestamp), (9, 'amit jain', 22, 'm', 'mechanical', '2020-07-20', 8.0, false, 'ahmedabad', current_timestamp), (10, 'kavya menon', 21, 'f', 'electrical engineering', '2021-08-05', 9.1, true, 'jaipur', current_timestamp);
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from students;
++----+--------------+------+--------+------------------------+-----------------+------+-----------+-----------+---------------------+
+| id | name         | age  | gender | department             | enrollment_date | cgpa | is_active | city      | created_at          |
++----+--------------+------+--------+------------------------+-----------------+------+-----------+-----------+---------------------+
+|  1 | arjun sharma |   20 | m      | computer science       | 2022-07-15      | 8.50 |         1 | delhi     | 2025-09-30 22:13:17 |
+|  2 | meena rao    |   21 | f      | electrical engineering | 2021-08-10      | 8.90 |         1 | mumbai    | 2025-09-30 22:13:17 |
+|  3 | rahul verma  |   19 | m      | mechanical             | 2023-07-20      | 7.80 |         1 | bangalore | 2025-09-30 22:13:17 |
+|  4 | sita das     |   22 | f      | civil                  | 2020-09-05      | 8.20 |         0 | kolkata   | 2025-09-30 22:13:17 |
+|  5 | vijay singh  |   23 | m      | computer science       | 2019-07-01      | 9.00 |         0 | chennai   | 2025-09-30 22:13:17 |
+|  6 | anita kumari |   20 | f      | electronics            | 2022-08-12      | 8.10 |         1 | pune      | 2025-09-30 22:13:17 |
+|  7 | dev joshi    |   21 | m      | information technology | 2021-07-10      | 7.90 |         1 | hyderabad | 2025-09-30 22:13:17 |
+|  8 | priya yadav  |   19 | f      | computer science       | 2023-07-18      | 8.40 |         1 | lucknow   | 2025-09-30 22:13:17 |
+|  9 | amit jain    |   22 | m      | mechanical             | 2020-07-20      | 8.00 |         0 | ahmedabad | 2025-09-30 22:13:17 |
+| 10 | kavya menon  |   21 | f      | electrical engineering | 2021-08-05      | 9.10 |         1 | jaipur    | 2025-09-30 22:13:17 |
++----+--------------+------+--------+------------------------+-----------------+------+-----------+-----------+---------------------+
+10 rows in set (0.00 sec)
+
+mysql> create index idx_name on students(name);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create index idx_department on students(department);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create index idx_cgpa on students(cgpa);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create index idx_city on students(city);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from students where department = 'computer science' and cgpa > 8.0;
++----+--------------+------+--------+------------------+-----------------+------+-----------+---------+---------------------+
+| id | name         | age  | gender | department       | enrollment_date | cgpa | is_active | city    | created_at          |
++----+--------------+------+--------+------------------+-----------------+------+-----------+---------+---------------------+
+|  1 | arjun sharma |   20 | m      | computer science | 2022-07-15      | 8.50 |         1 | delhi   | 2025-09-30 22:13:17 |
+|  5 | vijay singh  |   23 | m      | computer science | 2019-07-01      | 9.00 |         0 | chennai | 2025-09-30 22:13:17 |
+|  8 | priya yadav  |   19 | f      | computer science | 2023-07-18      | 8.40 |         1 | lucknow | 2025-09-30 22:13:17 |
++----+--------------+------+--------+------------------+-----------------+------+-----------+---------+---------------------+
+3 rows in set (0.00 sec)
+
+mysql> select name, cgpa from students where is_active = true order by cgpa desc limit 5;
++--------------+------+
+| name         | cgpa |
++--------------+------+
+| kavya menon  | 9.10 |
+| meena rao    | 8.90 |
+| arjun sharma | 8.50 |
+| priya yadav  | 8.40 |
+| anita kumari | 8.10 |
++--------------+------+
+5 rows in set (0.00 sec)
+
+mysql> select count(*) from students where gender = 'f' and city = 'mumbai';
++----------+
+| count(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select department, avg(cgpa) from students group by department;
++------------------------+-----------+
+| department             | avg(cgpa) |
++------------------------+-----------+
+| civil                  |  8.200000 |
+| computer science       |  8.633333 |
+| electrical engineering |  9.000000 |
+| electronics            |  8.100000 |
+| information technology |  7.900000 |
+| mechanical             |  7.900000 |
++------------------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql>
