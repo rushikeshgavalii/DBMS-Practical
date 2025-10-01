@@ -1,76 +1,170 @@
-Microsoft Windows [Version 10.0.26100.4770]
-(c) Microsoft Corporation. All rights reserved.
 
-C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u root -p
-Enter password: **********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 36
-Server version: 8.0.43 MySQL Community Server - GPL
+mysql> create table student (enno int auto_increment primary key, name varchar(100) not null, dob date not null);
+Query OK, 0 rows affected (0.03 sec)
 
-Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+mysql> insert into student (name,dob) values ('rahul sharma','2002-05-14');
+Query OK, 1 row affected (0.01 sec)
 
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
+mysql> insert into student (name,dob) values ('priya singh','2001-08-22');
+Query OK, 1 row affected (0.00 sec)
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> insert into student (name,dob) values ('arjun patel','2003-01-10');
+Query OK, 1 row affected (0.00 sec)
 
-mysql> use college;
-ERROR 1049 (42000): Unknown database 'college'
-mysql> show databases;
-+--------------------+
-| Database           |
-+--------------------+
-| company            |
-| ecommerce          |
-| information_schema |
-| mysql              |
-| performance_schema |
-| sakila             |
-| school             |
-| startsql           |
-| student            |
-| sys                |
-| world              |
-+--------------------+
-11 rows in set (0.02 sec)
+mysql> insert into student (name,dob) values ('neha verma','2002-11-30');
+Query OK, 1 row affected (0.01 sec)
 
-mysql> use student;
-Database changed
 mysql> select * from student;
-ERROR 1146 (42S02): Table 'student.student' doesn't exist
-mysql> CREATE TABLE student (
-    ->   enno INT PRIMARY KEY,
-    ->   name VARCHAR(100),
-    ->   class VARCHAR(20),
-    ->   address VARCHAR(255)
-    -> );
-Query OK, 0 rows affected (0.05 sec)
++------+--------------+------------+
+| enno | name         | dob        |
++------+--------------+------------+
+|    1 | rahul sharma | 2002-05-14 |
+|    2 | priya singh  | 2001-08-22 |
+|    3 | arjun patel  | 2003-01-10 |
+|    4 | neha verma   | 2002-11-30 |
++------+--------------+------------+
+4 rows in set (0.00 sec)
 
-mysql> INSERT INTO student VALUES
-    -> (1, 'Alice', '10th', '123 Main St'),
-    -> (2, 'Bob', '11th', '456 Oak Ave');
-Query OK, 2 rows affected (0.03 sec)
-Records: 2  Duplicates: 0  Warnings: 0
+mysql> create table course (courseid int auto_increment primary key, course_name varchar(100) not null unique, credit int not null check (credit>0));
+Query OK, 0 rows affected (0.03 sec)
 
-mysql> SELECT * FROM student;
-+------+-------+-------+-------------+
-| enno | name  | class | address     |
-+------+-------+-------+-------------+
-|    1 | Alice | 10th  | 123 Main St |
-|    2 | Bob   | 11th  | 456 Oak Ave |
-+------+-------+-------+-------------+
-2 rows in set (0.00 sec)
+mysql> create table enrollments (eid int auto_increment primary key, enno int not null, courseid int not null, year int not null, foreign key (enno) references student(enno) on delete cascade, foreign key (courseid) references course(courseid) on delete cascade);
+ERROR 1050 (42S01): Table 'enrollments' already exists
+mysql> insert into course (course_name,credit) values ('data structures',4);
+Query OK, 1 row affected (0.01 sec)
 
-mysql> select from student1;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from student1' at line 1
-mysql> select * from student;
-+------+-------+-------+-------------+
-| enno | name  | class | address     |
-+------+-------+-------+-------------+
-|    1 | Alice | 10th  | 123 Main St |
-|    2 | Bob   | 11th  | 456 Oak Ave |
-+------+-------+-------+-------------+
-2 rows in set (0.00 sec)
+mysql> insert into course (course_name,credit) values ('dbms',3);
+Query OK, 1 row affected (0.00 sec)
 
-mysql>
+mysql> insert into course (course_name,credit) values ('operating systems',4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into course (course_name,credit) values ('computer networks',3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from course;
++----------+-------------------+--------+
+| courseid | course_name       | credit |
++----------+-------------------+--------+
+|        1 | data structures   |      4 |
+|        2 | dbms              |      3 |
+|        3 | operating systems |      4 |
+|        4 | computer networks |      3 |
++----------+-------------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> drop table emrollment;
+ERROR 1051 (42S02): Unknown table 'university.emrollment'
+mysql> drop table tables enrollments;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'enrollments' at line 1
+mysql> drop table table enrollments;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table enrollments' at line 1
+mysql> drop table enrollments if exist;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'if exist' at line 1
+mysql> drop table if exists enrollments;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table enrollments (eid int auto_increment primary key, enno int not null, courseid int not null, year int not null, foreign key (enno) references student(enno) on delete cascade, foreign key (courseid) references course(courseid) on delete cascade);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into enrollments (enno,courseid,year) values (1,1,2023);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into enrollments (enno,courseid,year) values (1,2,2023);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into enrollments (enno,courseid,year) values (2,2,2024);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into enrollments (enno,courseid,year) values (3,3,2023);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into enrollments (enno,courseid,year) values (4,4,2024);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from enrollments;
++-----+------+----------+------+
+| eid | enno | courseid | year |
++-----+------+----------+------+
+|   1 |    1 |        1 | 2023 |
+|   2 |    1 |        2 | 2023 |
+|   3 |    2 |        2 | 2024 |
+|   4 |    3 |        3 | 2023 |
+|   5 |    4 |        4 | 2024 |
++-----+------+----------+------+
+5 rows in set (0.00 sec)
+
+mysql> create view studentview1 as select enno,name from student;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from studentview;
+ERROR 1146 (42S02): Table 'university.studentview' doesn't exist
+mysql> select * from studentview1;
++------+--------------+
+| enno | name         |
++------+--------------+
+|    1 | rahul sharma |
+|    2 | priya singh  |
+|    3 | arjun patel  |
+|    4 | neha verma   |
++------+--------------+
+4 rows in set (0.04 sec)
+
+mysql> create view env as select s.name,c.course_name,e.year from student s join enrollments e on s.enno=e.enno join course c on e.courseid=c.courseid;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from env;
++--------------+-------------------+------+
+| name         | course_name       | year |
++--------------+-------------------+------+
+| rahul sharma | data structures   | 2023 |
+| rahul sharma | dbms              | 2023 |
+| priya singh  | dbms              | 2024 |
+| arjun patel  | operating systems | 2023 |
+| neha verma   | computer networks | 2024 |
++--------------+-------------------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from studentview1;
++------+--------------+
+| enno | name         |
++------+--------------+
+|    1 | rahul sharma |
+|    2 | priya singh  |
+|    3 | arjun patel  |
+|    4 | neha verma   |
++------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into studentview1 (name) values ('amit kumar');
+ERROR 1423 (HY000): Field of view 'university.studentview1' underlying table doesn't have a default value
+mysql> update studentview1 set name='anita sharma' where enno=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> delete from studentview1 where enno=3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> alter table student modify dob date default '2000-01-01';
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into studentview1 (name) values ('amit kumar');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create or replace view studentview1 as select enno,name,dob from student;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into studentview1 (name,dob) values ('amit kumar','2001-07-15');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from env;
++--------------+-------------------+------+
+| name         | course_name       | year |
++--------------+-------------------+------+
+| neha verma   | computer networks | 2024 |
+| rahul sharma | data structures   | 2023 |
+| rahul sharma | dbms              | 2023 |
+| anita sharma | dbms              | 2024 |
++--------------+-------------------+------+
+4 rows in set (0.00 sec)
