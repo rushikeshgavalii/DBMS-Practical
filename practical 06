@@ -1,6 +1,10 @@
+Microsoft Windows [Version 10.0.26100.6584]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u root -p
 Enter password: *********
 Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8
+Your MySQL connection id is 9
 Server version: 8.0.43 MySQL Community Server - GPL
 
 Copyright (c) 2000, 2025, Oracle and/or its affiliates.
@@ -11,213 +15,295 @@ owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-mysql> create database university;
-Query OK, 1 row affected (0.01 sec)
+mysql> show databases;
++---------------------+
+| Database            |
++---------------------+
+| college_info        |
+| first               |
+| information_schema  |
+| mysql               |
+| performance_schema  |
+| rushi               |
+| university          |
+| university_database |
++---------------------+
+8 rows in set (0.02 sec)
 
-mysql> use university;
+mysql> create database college_db;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use college_db;
 Database changed
-mysql> create table students (student_id int primary key, name varchar(50), major varchar(50), cgpa decimal(3,2));
-Query OK, 0 rows affected (0.03 sec)
+mysql>
+mysql> create table student (
+    ->     student_id int primary key,
+    ->     name varchar(50),
+    ->     major varchar(50),
+    ->     cgpa decimal(3,2)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
 
-mysql> insert into students values (1, 'alice', 'computer science', 3.8), (2, 'bob', 'mathematics', 3.2), (3, 'carol', 'physics', 3.9), (4, 'david', 'computer science', 3.5), (5, 'emma', 'mathematics', 3.7);
+mysql> create table enrollment (
+    ->     enrollment_id int primary key,
+    ->     student_id int,
+    ->     course varchar(100),
+    ->     grade varchar(5),
+    ->     credits int
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into student (student_id, name, major, cgpa) values
+    -> (1, 'arjun', 'computer science', 3.6),
+    -> (2, 'priya', 'mathematics', 3.4),
+    -> (3, 'manoj', 'physics', 3.9),
+    -> (4, 'riya', 'computer science', 3.3),
+    -> (5, 'suresh', 'mathematics', 3.8);
 Query OK, 5 rows affected (0.01 sec)
 Records: 5  Duplicates: 0  Warnings: 0
 
-mysql> create table enrollment (enrollment_id int primary key, student_id int, course varchar(50), grade varchar(3), credits int);
-Query OK, 0 rows affected (0.02 sec)
-
-mysql> select * from students;
-+------------+-------+------------------+------+
-| student_id | name  | major            | cgpa |
-+------------+-------+------------------+------+
-|          1 | alice | computer science | 3.80 |
-|          2 | bob   | mathematics      | 3.20 |
-|          3 | carol | physics          | 3.90 |
-|          4 | david | computer science | 3.50 |
-|          5 | emma  | mathematics      | 3.70 |
-+------------+-------+------------------+------+
+mysql> select * from student;
++------------+--------+------------------+------+
+| student_id | name   | major            | cgpa |
++------------+--------+------------------+------+
+|          1 | arjun  | computer science | 3.60 |
+|          2 | priya  | mathematics      | 3.40 |
+|          3 | manoj  | physics          | 3.90 |
+|          4 | riya   | computer science | 3.30 |
+|          5 | suresh | mathematics      | 3.80 |
++------------+--------+------------------+------+
 5 rows in set (0.00 sec)
 
-mysql> select * from enrollments;
-ERROR 1146 (42S02): Table 'university.enrollments' doesn't exist
-mysql> select * from enrollment;
-Empty set (0.00 sec)
-
-mysql> insert into enrollment values (101, 1, 'database', 'a', 3), (102, 1, 'programming', 'b+', 4), (103, 2, 'calculus', 'a-', 4), (104, 3, 'quantum physics', 'a', 3), (105, 4, 'data structures', 'b', 3), (106, 5, 'statistics', 'a', 3), (107, 2, 'algebra', 'b+', 3);
+mysql> insert into enrollment (enrollment_id, student_id, course, grade, credits) values
+    -> (101, 1, 'operating systems', 'a-', 4),
+    -> (102, 1, 'data mining', 'b+', 3),
+    -> (103, 2, 'linear algebra', 'a', 3),
+    -> (104, 3, 'nuclear physics', 'a', 4),
+    -> (105, 4, 'computer networks', 'b', 3),
+    -> (106, 5, 'probability', 'a-', 4),
+    -> (107, 2, 'differential equations', 'b+', 3);
 Query OK, 7 rows affected (0.01 sec)
 Records: 7  Duplicates: 0  Warnings: 0
 
 mysql> select * from enrollment;
-+---------------+------------+-----------------+-------+---------+
-| enrollment_id | student_id | course          | grade | credits |
-+---------------+------------+-----------------+-------+---------+
-|           101 |          1 | database        | a     |       3 |
-|           102 |          1 | programming     | b+    |       4 |
-|           103 |          2 | calculus        | a-    |       4 |
-|           104 |          3 | quantum physics | a     |       3 |
-|           105 |          4 | data structures | b     |       3 |
-|           106 |          5 | statistics      | a     |       3 |
-|           107 |          2 | algebra         | b+    |       3 |
-+---------------+------------+-----------------+-------+---------+
++---------------+------------+------------------------+-------+---------+
+| enrollment_id | student_id | course                 | grade | credits |
++---------------+------------+------------------------+-------+---------+
+|           101 |          1 | operating systems      | a-    |       4 |
+|           102 |          1 | data mining            | b+    |       3 |
+|           103 |          2 | linear algebra         | a     |       3 |
+|           104 |          3 | nuclear physics        | a     |       4 |
+|           105 |          4 | computer networks      | b     |       3 |
+|           106 |          5 | probability            | a-    |       4 |
+|           107 |          2 | differential equations | b+    |       3 |
++---------------+------------+------------------------+-------+---------+
 7 rows in set (0.00 sec)
 
-mysql> select s.name, e.course, e.grade, e.credits from students s inner join enrollment e on s.student_id = e.student_id;
-+-------+-----------------+-------+---------+
-| name  | course          | grade | credits |
-+-------+-----------------+-------+---------+
-| alice | database        | a     |       3 |
-| alice | programming     | b+    |       4 |
-| bob   | calculus        | a-    |       4 |
-| carol | quantum physics | a     |       3 |
-| david | data structures | b     |       3 |
-| emma  | statistics      | a     |       3 |
-| bob   | algebra         | b+    |       3 |
-+-------+-----------------+-------+---------+
+mysql> select s.name, e.enrollment_id, e.course, e.grade
+    -> from student s
+    -> inner join enrollment e on s.student_id = e.student_id;
++--------+---------------+------------------------+-------+
+| name   | enrollment_id | course                 | grade |
++--------+---------------+------------------------+-------+
+| arjun  |           101 | operating systems      | a-    |
+| arjun  |           102 | data mining            | b+    |
+| priya  |           103 | linear algebra         | a     |
+| manoj  |           104 | nuclear physics        | a     |
+| riya   |           105 | computer networks      | b     |
+| suresh |           106 | probability            | a-    |
+| priya  |           107 | differential equations | b+    |
++--------+---------------+------------------------+-------+
 7 rows in set (0.00 sec)
 
-mysql> select s.name, e.course, e.grade from students s left join enrollment e on s.student_id = e.student_id;
-+-------+-----------------+-------+
-| name  | course          | grade |
-+-------+-----------------+-------+
-| alice | programming     | b+    |
-| alice | database        | a     |
-| bob   | algebra         | b+    |
-| bob   | calculus        | a-    |
-| carol | quantum physics | a     |
-| david | data structures | b     |
-| emma  | statistics      | a     |
-+-------+-----------------+-------+
+mysql> select s.name, e.enrollment_id, e.course, e.grade
+    -> from student s
+    -> left join enrollment e on s.student_id = e.student_id;
++--------+---------------+------------------------+-------+
+| name   | enrollment_id | course                 | grade |
++--------+---------------+------------------------+-------+
+| arjun  |           102 | data mining            | b+    |
+| arjun  |           101 | operating systems      | a-    |
+| priya  |           107 | differential equations | b+    |
+| priya  |           103 | linear algebra         | a     |
+| manoj  |           104 | nuclear physics        | a     |
+| riya   |           105 | computer networks      | b     |
+| suresh |           106 | probability            | a-    |
++--------+---------------+------------------------+-------+
 7 rows in set (0.00 sec)
 
-mysql> select s.name, e.course, e.grade from students s right join enrollment e on s.student_id = e.student_id;
-+-------+-----------------+-------+
-| name  | course          | grade |
-+-------+-----------------+-------+
-| alice | database        | a     |
-| alice | programming     | b+    |
-| bob   | calculus        | a-    |
-| carol | quantum physics | a     |
-| david | data structures | b     |
-| emma  | statistics      | a     |
-| bob   | algebra         | b+    |
-+-------+-----------------+-------+
+mysql>
+mysql> select s.name, e.enrollment_id, e.course, e.grade
+    -> from student s
+    -> right join enrollment e on s.student_id = e.student_id;
++--------+---------------+------------------------+-------+
+| name   | enrollment_id | course                 | grade |
++--------+---------------+------------------------+-------+
+| arjun  |           101 | operating systems      | a-    |
+| arjun  |           102 | data mining            | b+    |
+| priya  |           103 | linear algebra         | a     |
+| manoj  |           104 | nuclear physics        | a     |
+| riya   |           105 | computer networks      | b     |
+| suresh |           106 | probability            | a-    |
+| priya  |           107 | differential equations | b+    |
++--------+---------------+------------------------+-------+
 7 rows in set (0.00 sec)
 
-mysql> select s.name, e.course, e.grade from students s left join enrollment e on s.student_id = e.student_id union select s.name, e.course, e.grade from students s right join enrollment e on s.student_id = e.student_id;
-+-------+-----------------+-------+
-| name  | course          | grade |
-+-------+-----------------+-------+
-| alice | programming     | b+    |
-| alice | database        | a     |
-| bob   | algebra         | b+    |
-| bob   | calculus        | a-    |
-| carol | quantum physics | a     |
-| david | data structures | b     |
-| emma  | statistics      | a     |
-+-------+-----------------+-------+
-7 rows in set (0.01 sec)
+mysql>
+mysql> select s.student_id, s.name, e.enrollment_id, e.course, e.grade
+    -> from student s
+    -> left join enrollment e on s.student_id = e.student_id
+    -> union
+    -> select s.student_id, s.name, e.enrollment_id, e.course, e.grade
+    -> from student s
+    -> right join enrollment e on s.student_id = e.student_id;
++------------+--------+---------------+------------------------+-------+
+| student_id | name   | enrollment_id | course                 | grade |
++------------+--------+---------------+------------------------+-------+
+|          1 | arjun  |           102 | data mining            | b+    |
+|          1 | arjun  |           101 | operating systems      | a-    |
+|          2 | priya  |           107 | differential equations | b+    |
+|          2 | priya  |           103 | linear algebra         | a     |
+|          3 | manoj  |           104 | nuclear physics        | a     |
+|          4 | riya   |           105 | computer networks      | b     |
+|          5 | suresh |           106 | probability            | a-    |
++------------+--------+---------------+------------------------+-------+
+7 rows in set (0.00 sec)
 
-mysql> select s.name, s.major, sum(e.credits) as total_credits, avg(case e.grade when 'a' then 4.0 when 'a-' then 3.7 when 'b+' then 3.3 when 'b' then 3.0 else null end) as average_gpa from students s join enrollment e on s.student_id = e.student_id group by s.name, s.major;
-+-------+------------------+---------------+-------------+
-| name  | major            | total_credits | average_gpa |
-+-------+------------------+---------------+-------------+
-| alice | computer science |             7 |     3.65000 |
-| bob   | mathematics      |             7 |     3.50000 |
-| carol | physics          |             3 |     4.00000 |
-| david | computer science |             3 |     3.00000 |
-| emma  | mathematics      |             3 |     4.00000 |
-+-------+------------------+---------------+-------------+
+mysql> select
+    ->     s.name,
+    ->     s.major,
+    ->     sum(e.credits) as total_credits,
+    ->     round(avg(
+    ->         case e.grade
+    ->             when 'a' then 4.0
+    ->             when 'a-' then 3.7
+    ->             when 'b+' then 3.3
+    ->             when 'b' then 3.0
+    ->             else null
+    ->         end
+    ->     ), 2) as avg_gpa
+    -> from student s
+    -> left join enrollment e on s.student_id = e.student_id
+    -> group by s.student_id, s.name, s.major;
++--------+------------------+---------------+---------+
+| name   | major            | total_credits | avg_gpa |
++--------+------------------+---------------+---------+
+| arjun  | computer science |             7 |    3.50 |
+| priya  | mathematics      |             6 |    3.65 |
+| manoj  | physics          |             4 |    4.00 |
+| riya   | computer science |             3 |    3.00 |
+| suresh | mathematics      |             4 |    3.70 |
++--------+------------------+---------------+---------+
 5 rows in set (0.00 sec)
 
-mysql> select * from students where cgpa > (select cgpa from students where name = 'bob');
-+------------+-------+------------------+------+
-| student_id | name  | major            | cgpa |
-+------------+-------+------------------+------+
-|          1 | alice | computer science | 3.80 |
-|          3 | carol | physics          | 3.90 |
-|          4 | david | computer science | 3.50 |
-|          5 | emma  | mathematics      | 3.70 |
-+------------+-------+------------------+------+
-4 rows in set (0.00 sec)
-
-mysql> select course from enrollment where student_id in (select student_id from students where major = 'computer science');
-+-----------------+
-| course          |
-+-----------------+
-| database        |
-| programming     |
-| data structures |
-+-----------------+
+mysql>
+mysql> select * from student
+    -> where cgpa > (
+    ->     select cgpa from student where name = 'priya'
+    -> );
++------------+--------+------------------+------+
+| student_id | name   | major            | cgpa |
++------------+--------+------------------+------+
+|          1 | arjun  | computer science | 3.60 |
+|          3 | manoj  | physics          | 3.90 |
+|          5 | suresh | mathematics      | 3.80 |
++------------+--------+------------------+------+
 3 rows in set (0.00 sec)
 
-mysql> select * from enrollment where student_id = (select student_id from students order by cgpa desc limit 1);
+mysql>
+mysql> select course from enrollment
+    -> where student_id in (
+    ->     select student_id from student where major = 'computer science'
+    -> );
++-------------------+
+| course            |
++-------------------+
+| operating systems |
+| data mining       |
+| computer networks |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> select * from enrollment
+    -> where student_id = (
+    ->     select student_id from student
+    ->     where cgpa = (select max(cgpa) from student)
+    -> );
 +---------------+------------+-----------------+-------+---------+
 | enrollment_id | student_id | course          | grade | credits |
 +---------------+------------+-----------------+-------+---------+
-|           104 |          3 | quantum physics | a     |       3 |
+|           104 |          3 | nuclear physics | a     |       4 |
 +---------------+------------+-----------------+-------+---------+
 1 row in set (0.00 sec)
 
-mysql> select s.* from students s where (select count(*) from enrollment e where e.student_id = s.student_id) > 1;
+mysql>
+mysql> select * from student
+    -> where student_id in (
+    ->     select student_id from enrollment
+    ->     group by student_id
+    ->     having count(*) > 1
+    -> );
 +------------+-------+------------------+------+
 | student_id | name  | major            | cgpa |
 +------------+-------+------------------+------+
-|          1 | alice | computer science | 3.80 |
-|          2 | bob   | mathematics      | 3.20 |
+|          1 | arjun | computer science | 3.60 |
+|          2 | priya | mathematics      | 3.40 |
 +------------+-------+------------------+------+
 2 rows in set (0.00 sec)
 
-mysql> select * from students s where exists (select 1 from enrollment e where e.student_id = s.student_id);
-+------------+-------+------------------+------+
-| student_id | name  | major            | cgpa |
-+------------+-------+------------------+------+
-|          1 | alice | computer science | 3.80 |
-|          2 | bob   | mathematics      | 3.20 |
-|          3 | carol | physics          | 3.90 |
-|          4 | david | computer science | 3.50 |
-|          5 | emma  | mathematics      | 3.70 |
-+------------+-------+------------------+------+
+mysql>
+mysql> select * from student s
+    -> where exists (
+    ->     select 1 from enrollment e
+    ->     where e.student_id = s.student_id
+    -> );
++------------+--------+------------------+------+
+| student_id | name   | major            | cgpa |
++------------+--------+------------------+------+
+|          1 | arjun  | computer science | 3.60 |
+|          2 | priya  | mathematics      | 3.40 |
+|          3 | manoj  | physics          | 3.90 |
+|          4 | riya   | computer science | 3.30 |
+|          5 | suresh | mathematics      | 3.80 |
++------------+--------+------------------+------+
 5 rows in set (0.00 sec)
 
-mysql> select * from students s where not exists (select 1 from enrollment e where e.student_id = s.student_id);
+mysql>
+mysql> select * from student s
+    -> where not exists (
+    ->     select 1 from enrollment e
+    ->     where e.student_id = s.student_id
+    -> );
 Empty set (0.00 sec)
 
-mysql> select s.name, (select count(*) from enrollment e where e.student_id = s.student_id) as course_count from students s;
-+-------+--------------+
-| name  | course_count |
-+-------+--------------+
-| alice |            2 |
-| bob   |            2 |
-| carol |            1 |
-| david |            1 |
-| emma  |            1 |
-+-------+--------------+
+mysql>
+mysql> select name,
+    -> (select count(*) from enrollment e where e.student_id = s.student_id) as course_count
+    -> from student s;
++--------+--------------+
+| name   | course_count |
++--------+--------------+
+| arjun  |            2 |
+| priya  |            2 |
+| manoj  |            1 |
+| riya   |            1 |
+| suresh |            1 |
++--------+--------------+
 5 rows in set (0.00 sec)
 
-mysql> select * from students s1 where cgpa > (select avg(cgpa) from students s2 where s2.major = s1.major);
-+------------+-------+------------------+------+
-| student_id | name  | major            | cgpa |
-+------------+-------+------------------+------+
-|          1 | alice | computer science | 3.80 |
-|          5 | emma  | mathematics      | 3.70 |
-+------------+-------+------------------+------+
+mysql>
+mysql> select * from student s
+    -> where cgpa > (
+    ->     select avg(cgpa) from student
+    ->     where major = s.major
+    -> );
++------------+--------+------------------+------+
+| student_id | name   | major            | cgpa |
++------------+--------+------------------+------+
+|          1 | arjun  | computer science | 3.60 |
+|          5 | suresh | mathematics      | 3.80 |
++------------+--------+------------------+------+
 2 rows in set (0.00 sec)
-
-mysql> select * from students s where (select sum(credits) from enrollment e where e.student_id = s.student_id) > (select avg(total_credits) from (select student_id, sum(credits) as total_credits from enrollment group by student_id) as avg_table);
-+------------+-------+------------------+------+
-| student_id | name  | major            | cgpa |
-+------------+-------+------------------+------+
-|          1 | alice | computer science | 3.80 |
-|          2 | bob   | mathematics      | 3.20 |
-+------------+-------+------------------+------+
-2 rows in set (0.00 sec)
-
-mysql> select * from students where major = 'computer science' and cgpa > (select avg(cgpa) from students);
-+------------+-------+------------------+------+
-| student_id | name  | major            | cgpa |
-+------------+-------+------------------+------+
-|          1 | alice | computer science | 3.80 |
-+------------+-------+------------------+------+
-1 row in set (0.00 sec)
 
 mysql>
