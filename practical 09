@@ -1,138 +1,279 @@
-declare
-  id int;
-  pname varchar2(20);
-  price float;
-  qty int;
-begin
-  dbms_output.put_line('--- Implicit Cursor ---');
-  id := &id;
-  begin
-    select pid, productname, price, qty into id, pname, price, qty from product where pid = id;
-    if sql%found then
-      dbms_output.put_line(id || ' ' || pname || ' ' || price || ' ' || qty);
-    else
-      dbms_output.put_line('No product found with pid ' || id);
-    end if;
-  exception
-    when no_data_found then
-      dbms_output.put_line('No product found with pid ' || id);
-  end;
-end;
-/
+SQL*Plus: Release 21.0.0.0.0 - Production on Sun Sep 21 21:50:41 2025
+Version 21.3.0.0.0
 
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
 
-declare
-  pid int;
-  pname varchar2(50);
-  pr float;
-  qty int;
-  cursor c1(p float) is 
-    select * from product where price >= p;
-begin
-  dbms_output.put_line('--- Explicit Cursor ---');
-  open c1(&p);
-  loop
-    fetch c1 into pid, pname, pr, qty;
-    exit when c1%notfound;
-    dbms_output.put_line(pid || ' ' || pname || ' ' || pr || ' ' || qty);
-  end loop;
-  close c1;
-end;
-/
+Enter user-name: system
+Enter password:
+Last Successful login time: Sun Sep 21 2025 21:40:29 +05:30
 
+Connected to:
+Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
 
-declare
-  pid int;
-  pname varchar2(50);
-  pr float;
-  qty int;
-  cursor c1(p float) is 
-    select * from product where price > p for update;
-begin
-  dbms_output.put_line('--- Update Cursor (price reduced by 2000) ---');
-  open c1(&p);
-  loop
-    fetch c1 into pid, pname, pr, qty;
-    exit when c1%notfound;
-    update product set price = price - 2000 where current of c1;
-    dbms_output.put_line(pid || ' ' || pname || ' ' || pr || ' ' || qty);
-  end loop;
-  close c1;
-end;
-/
-
-
-declare
-  pid int;
-  pname varchar2(50);
-  pr float;
-  qty int;
-  cursor c1(p float) is
-    select * from product where price > p for update;
-begin
-  dbms_output.put_line('--- Delete Cursor ---');
-  open c1(&p);
-  loop
-    fetch c1 into pid, pname, pr, qty;
-    exit when c1%notfound;
-    delete from product where current of c1;
-    dbms_output.put_line(pid || ' ' || pname || ' ' || pr || ' ' || qty);
-  end loop;
-  close c1;
-end;
-/
-
-
-declare
-begin
-  dbms_output.put_line('--- Cursor For Loop ---');
-  for rec in (select * from product) loop
-    dbms_output.put_line(rec.pid || ' ' || rec.productname || ' ' || rec.price || ' ' || rec.qty);
-  end loop;
-end;
-/
-
-SQL> create table product (
-  2    pid number primary key,
-  3    productname varchar2(20),
-  4    price float,
-  5    qty number
-  6  );
+SQL> create table product(pid int,ProductName varchar(20),price float,qty int);
 
 Table created.
 
-SQL>
-SQL> insert into product values (101, 'Mobile', 1200, 1);
+SQL> insert into product values(101,'Fridge',12000,1);
 
 1 row created.
 
-SQL> insert into product values (102, 'Laptop', 28000, 2);
+SQL> insert into product values(102,'Laptop',28000,2);
 
 1 row created.
 
-SQL> insert into product values (103, 'Pc', 20000, 3);
+SQL> insert into product values(103,'Cleaner',36000,3);
 
 1 row created.
 
-SQL> commit;
+SQL> select * from product;
 
-Commit complete.
+       PID PRODUCTNAME               PRICE        QTY
+---------- -------------------- ---------- ----------
+       101 Fridge                    12000          1
+       102 Laptop                    24000          2
+       103 Cleaner                   36000          3
+Code:
+Implicit cursor:
+declare
+id int;
+pname varchar(20);
+price float;
+qty int;
+begin
+id:=&id;
+select pid,ProductName,price,qty into id,pname,price,qty from product where pid=id;
+if sql% found then
+dbms_output.put_line(id||pname||price||qty);
+end if;
+end;
+/
+Ouput:
 
-SQL> @C:\Users\gaval\Desktop\dbms_practical\implicit_explicit
-Enter value for id: 101
-old   8:   id := &id;
-new   8:   id := 101;
---- Implicit Cursor ---
-101 Mobile 1200 1
+SQL> set serveroutput on
+SQL> @C:\sql\product.sql
+Enter value for pid: 102
+old   7: pid:=&pid;
+new   7: pid:=102;
+select pid,ProductName,price,qty into pid,pname,price,qty where pid=pid;
+SQL> @C:\sql\product.sql
+Enter value for id: 102
+old   7: id:=&id;
+new   7: id:=102;
+102Laptop240002
 
 PL/SQL procedure successfully completed.
 
-Enter value for p: 1200
-old  10:   open c1(&p);
-new  10:   open c1(1200);
---- Explicit Cursor ---
-101 Mobile 1200 1
-102 Laptop 28000 2
-103 Pc 20000 3
+SQL> @C:\sql\product.sql
+Enter value for id: 101
+old   7: id:=&id;
+new   7: id:=101;
+101Fridge120001
+
+PL/SQL procedure successfully completed.
+Code: Explicit Cursor
+declare 
+pid int;
+pname varchar(50);
+pr float;
+qty int;
+cursor c1(p float) is select * from product where price>=p;
+begin
+open c1(&p);
+loop 
+fetch c1 into pid,pname,pr,qty;
+exit when c1%notfound;
+dbms_output.put_line(pid||pname||pr||qty);
+end loop;
+close c1;
+end;
+/
+output:
+
+SQL> @C:\sql\product.sql
+Enter value for p: 101
+old   8: open c1(&p);
+new   8: open c1(101);
+dbms_output.put_line(pid||pname||price||qty);
+                                 *
+ERROR at line 12:
+ORA-06550: line 12, column 34:
+PLS-00201: identifier 'PRICE' must be declared
+ORA-06550: line 12, column 1:
+PL/SQL: Statement ignored
+
+
+SQL> @C:\sql\product.sql
+Enter value for p: 101
+old   8: open c1(&p);
+new   8: open c1(101);
+101Fridge120001
+102Laptop240002
+103Pc360003
+
+PL/SQL procedure successfully completed.
+
+SQL> @C:\sql\product.sql
+Enter value for p: 20000
+old   8: open c1(&p);
+new   8: open c1(15000);
+102Laptop240002
+103Pc360003
+
+PL/SQL procedure successfully completed.
+
+SQL> @C:\sql\product.sql
+Enter value for p: 20000
+old   8: open c1(&p);
+new   8: open c1(20000);
+102Laptop240002
+103Pc360003
+
+PL/SQL procedure successfully completed.
+
+SQL> 21000
+SP2-0226: Invalid line number
+SQL> @C:\sql\product.sql
+Enter value for p: 30000
+old   8: open c1(&p);
+new   8: open c1(21000);
+103Cleaner360003
+
+PL/SQL procedure successfully completed.
+CODE: Update Cursor
+declare 
+pid int;
+pname varchar(50);
+pr float;
+qty int;
+cursor c1(p float) is select * from product where price>p for update;
+begin
+open c1(&p);
+loop 
+fetch c1 into pid,pname,pr,qty;
+exit when c1% notfound;
+update product set price=price-2000 where current of c1;
+dbms_output.put_line(pid||pname||pr||qty);
+end loop;
+close c1;
+end;
+OUTPUT :
+SQL> set serveroutput on
+SQL> @C:\sql\product.sql
+Enter value for p: 103
+old   8: open c1(&p);
+new   8: open c1(103);
+102Laptop220002
+103Cleaner340003
+
+PL/SQL procedure successfully completed.
+
+SQL> @C:\sql\product.sql
+Enter value for p: 102
+old   8: open c1(&p);
+new   8: open c1(102);
+102Laptop220002
+103Cleaner340003
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from product;
+
+       PID PRODUCTNAME               PRICE        QTY
+---------- -------------------- ---------- ----------
+       101 Fridge                    -8000          1
+       102 Laptop                    18000          2
+       103 Pc                        30000          3
+CODE: DELETE CURSOR
+declare 
+pid int;
+pname varchar(50);
+pr float;
+qty int;
+cursor c1(p float) is select * from product where price>p for update;
+begin
+open c1(&p);
+loop 
+fetch c1 into pid,pname,pr,qty;
+exit when c1% notfound;
+delete from product where current of c1;
+dbms_output.put_line(pid||pname||pr||qty);
+end loop;
+close c1;
+end;
+/
+OUTPUT:
+SQL> set serveroutput on
+SQL> @C:\sql\product.sql
+SP2-0310: unable to open file "C:\sql\product.sql"
+SQL> @C:\sql\productt.sql
+Enter value for p: 102
+old   8: open c1(&p);
+new   8: open c1(102);
+102Laptop180002
+103Cleaner300003
+
+PL/SQL procedure successfully completed.
+
+SQL> @C:\sql\productt.sql
+Enter value for p: 101
+old   8: open c1(&p);
+new   8: open c1(101);
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from product;
+
+       PID PRODUCTNAME               PRICE        QTY
+---------- -------------------- ---------- ----------
+       101 Fridge                    -8000          1
+CODE: FOR LOOP 
+declare
+rec product%rowtype;
+cursor c1 is select * from product;
+begin
+for rec in c1 loop
+dbms_output.put_line(rec.pid||rec.productname||rec.price||rec.qty);
+end loop;
+end;
+/ 
+OUTPUT:
+SQL> insert into product values(102,'Laptop',24000,2);
+
+1 row created.
+
+SQL>  insert into product values(103,'Cleaner',20000,3);
+
+1 row created.
+
+SQL> select * from product;
+
+       PID PRODUCTNAME               PRICE        QTY
+---------- -------------------- ---------- ----------
+       101 Fridge                    -8000          1
+       102 Laptop                    24000          2
+       103 Cleaner                   20000          3
+
+SQL> set serveroutput on
+SQL> @C:\sql\productt.sql
+101Fridge-80001
+102Laptop240002
+103Cleaner200003
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from product;
+
+       PID PRODUCTNAME               PRICE        QTY
+---------- -------------------- ---------- ----------
+       101 Fridge                    -8000          1
+       102 Laptop                    24000          2
+       103 Cleaner                   20000          3
+
+SQL> @C:\sql\productt.sql
+101Fridge-80001
+102Laptop240002
+103Claeaner200003
 
 PL/SQL procedure successfully completed.
