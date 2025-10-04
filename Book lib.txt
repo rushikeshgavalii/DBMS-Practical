@@ -1,23 +1,23 @@
-TRIGGER CREATION CODE:
 create or replace trigger bk
 before update or delete on library
 for each row 
 begin
-insert into booklib values(:old.bookid,:old.bname,:old.author,:old.publisher,:old.price,:old.pdate);
+insert into bklib values(:old.bookid,:old.bname,:old.author,:old.publisher,:old.price,:old.pdate);
 end;
 /
 OUTPUT:
 
-SQL*Plus: Release 21.0.0.0.0 - Production on Sun Sep 28 05:34:29 2025
+SQL*Plus: Release 21.0.0.0.0 - Production on Sun Sep 28 09:34:29 2025
 Version 21.3.0.0.0
 
 Copyright (c) 1982, 2021, Oracle.  All rights reserved.
 
 
 
+
 Enter user-name: system
 Enter password:
-Last Successful login time: Sun Sep 28 2025 05:20:02 +05:30
+Last Successful login time: Sun Sep 28 2025 09:34:29 +09:30
 
 Connected to:
 Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production
@@ -27,37 +27,37 @@ SQL> create table library(bookid int,bname varchar(20),author varchar(20),publis
 
 Table created.
 
-SQL>  create table booklib * from library;
- create table booklib * from library
+SQL>  create table bklib * from library;
+ create table bklib * from library
                     *
 ERROR at line 1:
 ORA-00922: missing or invalid option
 
 
-SQL> create table booklib as select * from library;
-create table booklib as select * from library
+SQL> create table bklib as select * from library;
+create table bklib as select * from library
              *
 ERROR at line 1:
 ORA-00955: name is already used by an existing object
 
 
-SQL> create table booklib as select * from library;
+SQL> create table bklib as select * from library;
 
 Table created.
 
-SQL>  insert into library values(101,'Agnipankha','Abdul kalam','Bharti',800,'22-Dec-2024');
+SQL>  insert into library values(101,'fds','rushi','techneo',700,'1-JAN-2025');
 
 1 row created.
 
-SQL> insert into library values(102,'Yayati','Khandekar','Techneo',700,'12-sep-2025');
+SQL> insert into library values(102,'dsa','harry','abc',700,'1-FEB-2025');
 
 1 row created.
 
-SQL> insert into library values(103,'Who was Shudra','Dr Ambedkar','Technical',600,'12-AUG-2025');
+SQL> insert into library values(103,'c','abc','harry',600,'1-MAY-2025');
 
 1 row created.
 
-SQL> insert into library values(104,'Shivaji','Purandare','Counter',800,'26-jul-2025');
+SQL> insert into library values(104,'c++','pqr','xyz',800,'16-JUNE-2025');
 
 1 row created.
 
@@ -67,25 +67,25 @@ SQL> select * from library;
 ---------- -------------------- -------------------- --------------------
      PRICE PDATE
 ---------- ---------
-       101 Agnipankha                Abdul Kalam                Bharti
-       800 22-Dec-24
+       101 fds                 rushi                 techneo
+       700 1-JAN-25
 
-       102 Yayati                    Khandekar                  Techneo
-       700 12-AUG-25
+       102 dsa                 harry                 abc
+       700 1-FEB-25
 
-       103 Who was Shudra            Dr Ambedkar                Technical
-       700 12-AUG-25
+       103 c                    abc                  harry
+       600 1-MAY-25
 
 
     BOOKID BNAME                AUTHOR               PUBLISHER
 ---------- -------------------- -------------------- --------------------
      PRICE PDATE
 ---------- ---------
-       104 Shivaji                  Purandare            Counter
-       800 26-JUL-25
+       104 c++                  pqr                    xyz
+       800 16-JUNE-25
 
 
-SQL>  @C:\sql\pr7.sql
+SQL>  @C:\sql\book.sql
 
 Trigger created.
 
@@ -93,28 +93,28 @@ SQL> delete from library;
 
 4 rows deleted.
 
-SQL> select * from booklib;
+SQL> select * from bklib;
 
     BOOKID BNAME                AUTHOR               PUBLISHER
 ---------- -------------------- -------------------- --------------------
      PRICE PDATE
 ---------- ---------
-       101 Agnipankha          Abdul Kalam         Bharti
-       700 12-JUN-25
+       101 fds                 rushi                 techneo
+       700 1-JAN-25
 
-       102 Yayati              Khandekar           Techneo
-       700 12-AUG-25
+       102 dsa                 harry                 abc
+       700 1-FEB-25
 
-       103 Who was Shudra      Dr Ambedkar         Technical
-       70 12-SEP-25
+       103 c                   abc                   harry
+       600 1-MAY-25
 
 
     BOOKID BNAME                AUTHOR               PUBLISHER
 ---------- -------------------- -------------------- --------------------
      PRICE PDATE
 ---------- ---------
-     104  Shivaji               Purandare            Counter
-     800 12-SEP-25
+       104 c++                  pqr                    xyz
+       800 16-JUNE-25
 
 
 SQL> select * from library;
@@ -137,12 +137,12 @@ end;
 /
 OUTPUT:
 
-SQL>  @C:\sql\pr70.sql
+SQL>  @C:\sql\book.sql
 
 Trigger created.
 
-SQL>  insert into lib values(101,'dbms','korth','willy',700,'12-jun-2025');
- insert into lib values(101,'dbms','korth','willy',700,'12-jun-2025')
+SQL>  insert into lib values(101,'fds','rushi','techneo',700,'1-JAN-2025');
+ insert into lib values(101,'fds','rushi','techneo',700,'1-JAN-2025')
              *
 ERROR at line 1:
 ORA-20001: operation not allowed on sunday
@@ -155,5 +155,5 @@ delete from lib
             *
 ERROR at line 1:
 ORA-20001: operation not allowed on sunday
-
-
+ORA-06512: at "SYSTEM.STATEMENT", line 3
+ORA-04088: error during execution of trigger 'SYSTEM.STATEMENT'
