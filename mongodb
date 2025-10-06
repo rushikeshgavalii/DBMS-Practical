@@ -1,0 +1,84 @@
+Please enter a MongoDB connection string (Default: mongodb://localhost/):
+
+Current Mongosh Log ID: 68e27db2730805537dcebea3
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
+Using MongoDB:          8.2.1
+Using Mongosh:          2.5.8
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-10-04T19:20:55.950+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use demo;
+switched to db demo
+demo> show dbs;
+admin   40.00 KiB
+config  36.00 KiB
+local   40.00 KiB
+demo> use demoxx;
+switched to db demoxx
+demoxx> show dbs;
+admin   40.00 KiB
+config  72.00 KiB
+local   40.00 KiB
+demoxx> db.createCollection('stud');
+{ ok: 1 }
+demoxx> db.stud.insertOne({rollno:111,name:{fname:'rushikesh',mname:'sham',lname:'gavali'}});
+{
+  acknowledged: true,
+  insertedId: ObjectId('68e27ff2730805537dcebea4')
+}
+demoxx> db.stud.find();
+[
+  {
+    _id: ObjectId('68e27ff2730805537dcebea4'),
+    rollno: 111,
+    name: { fname: 'rushikesh', mname: 'sham', lname: 'gavali' }
+  }
+]
+demoxx> db.stud.find({rollno:101});
+[
+  {
+    _id: ObjectId('68e27ff2730805537dcebea4'),
+    rollno: 111,
+    name: { fname: 'rushikesh', mname: 'sham', lname: 'gavali' }
+  }
+]
+demoxx> db.stud.insertMany([{rollno:112,name:'soham',class:'TE',fees:80000},{rollno:113,name:'dolly',class:'TE',fees:30000}]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68e2805b730805537dcebea5'),
+    '1': ObjectId('68e2805b730805537dcebea6')
+  }
+}
+demoxx> db.stud.update({rollno:112},{$set:{name:'raj'}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demoxx>  db.stud.remove({rollno:113})
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{ acknowledged: true, deletedCount: 1 }
+demoxx> db.stud.find()
+[
+  {
+    _id: ObjectId('68e27ff2730805537dcebea4'),
+    rollno: 111,
+    name: { fname: 'rushikesh', mname: 'sham', lname: 'gavali' }
+  },
+  {
+    _id: ObjectId('68e2805b730805537dcebea5'),
+    rollno: 112,
+    name: 'soham',
+    class: 'TE',
+    fees: 80000
+  }
+
