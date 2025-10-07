@@ -1,5 +1,10 @@
+Microsoft Windows [Version 10.0.26100.4770]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u root -p
+Enter password: **********
 Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8
+Your MySQL connection id is 30
 Server version: 8.0.43 MySQL Community Server - GPL
 
 Copyright (c) 2000, 2025, Oracle and/or its affiliates.
@@ -11,105 +16,239 @@ owners.
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 mysql> show databases;
-+---------------------+
-| Database            |
-+---------------------+
-| college_info        |
-| first               |
-| information_schema  |
-| mysql               |
-| performance_schema  |
-| university          |
-| university_database |
-+---------------------+
-7 rows in set (0.02 sec)
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| ecommerce          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| school             |
+| student            |
+| sys                |
+| world              |
++--------------------+
+10 rows in set (0.02 sec)
 
-mysql> create database rushi;
-Query OK, 1 row affected (0.01 sec)
-mysql> use rushi;
+mysql> use school;
 Database changed
+mysql> CREATE TABLE college ( roll_no INT PRIMARY KEY,
+    -> name VARCHAR(100),
+    -> course VARCHAR(100),
+    -> class VARCHAR(100),
+    -> fees DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
 
-mysql> create table students (id int primary key, name varchar(50), age int, gender char(1), department varchar(50), enrollment_date date, cgpa decimal(3,2), is_active boolean, city varchar(50), created_at timestamp);
-Query OK, 0 rows affected (0.03 sec)
+mysql> desc college;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| roll_no | int           | NO   | PRI | NULL    |       |
+| name    | varchar(100)  | YES  |     | NULL    |       |
+| course  | varchar(100)  | YES  |     | NULL    |       |
+| class   | varchar(100)  | YES  |     | NULL    |       |
+| fees    | decimal(10,2) | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
 
-mysql> insert into students (id, name, age, gender, department, enrollment_date, cgpa, is_active, city, created_at) values (1, 'arjun sharma', 20, 'm', 'computer science', '2022-07-15', 8.5, true, 'delhi', current_timestamp), (2, 'meena rao', 21, 'f', 'electrical engineering', '2021-08-10', 8.9, true, 'mumbai', current_timestamp), (3, 'rahul verma', 19, 'm', 'mechanical', '2023-07-20', 7.8, true, 'bangalore', current_timestamp), (4, 'sita das', 22, 'f', 'civil', '2020-09-05', 8.2, false, 'kolkata', current_timestamp), (5, 'vijay singh', 23, 'm', 'computer science', '2019-07-01', 9.0, false, 'chennai', current_timestamp), (6, 'anita kumari', 20, 'f', 'electronics', '2022-08-12', 8.1, true, 'pune', current_timestamp), (7, 'dev joshi', 21, 'm', 'information technology', '2021-07-10', 7.9, true, 'hyderabad', current_timestamp), (8, 'priya yadav', 19, 'f', 'computer science', '2023-07-18', 8.4, true, 'lucknow', current_timestamp), (9, 'amit jain', 22, 'm', 'mechanical', '2020-07-20', 8.0, false, 'ahmedabad', current_timestamp), (10, 'kavya menon', 21, 'f', 'electrical engineering', '2021-08-05', 9.1, true, 'jaipur', current_timestamp);
-Query OK, 10 rows affected (0.01 sec)
-Records: 10  Duplicates: 0  Warnings: 0
+mysql> INSERT INTO college (roll_no, name, course, class, fees)
+    -> VALUES
+    -> (1, 'dolly','computer science', 'be',40000),
+    ->  (2, 'rushi','AIDS', 'te',50000),
+    ->  (3, 'soham','civil engi', 'se',30000);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 
-mysql> select * from students;
-+----+--------------+------+--------+------------------------+-----------------+------+-----------+-----------+---------------------+
-| id | name         | age  | gender | department             | enrollment_date | cgpa | is_active | city      | created_at          |
-+----+--------------+------+--------+------------------------+-----------------+------+-----------+-----------+---------------------+
-|  1 | arjun sharma |   20 | m      | computer science       | 2022-07-15      | 8.50 |         1 | delhi     | 2025-09-30 22:13:17 |
-|  2 | meena rao    |   21 | f      | electrical engineering | 2021-08-10      | 8.90 |         1 | mumbai    | 2025-09-30 22:13:17 |
-|  3 | rahul verma  |   19 | m      | mechanical             | 2023-07-20      | 7.80 |         1 | bangalore | 2025-09-30 22:13:17 |
-|  4 | sita das     |   22 | f      | civil                  | 2020-09-05      | 8.20 |         0 | kolkata   | 2025-09-30 22:13:17 |
-|  5 | vijay singh  |   23 | m      | computer science       | 2019-07-01      | 9.00 |         0 | chennai   | 2025-09-30 22:13:17 |
-|  6 | anita kumari |   20 | f      | electronics            | 2022-08-12      | 8.10 |         1 | pune      | 2025-09-30 22:13:17 |
-|  7 | dev joshi    |   21 | m      | information technology | 2021-07-10      | 7.90 |         1 | hyderabad | 2025-09-30 22:13:17 |
-|  8 | priya yadav  |   19 | f      | computer science       | 2023-07-18      | 8.40 |         1 | lucknow   | 2025-09-30 22:13:17 |
-|  9 | amit jain    |   22 | m      | mechanical             | 2020-07-20      | 8.00 |         0 | ahmedabad | 2025-09-30 22:13:17 |
-| 10 | kavya menon  |   21 | f      | electrical engineering | 2021-08-05      | 9.10 |         1 | jaipur    | 2025-09-30 22:13:17 |
-+----+--------------+------+--------+------------------------+-----------------+------+-----------+-----------+---------------------+
-10 rows in set (0.00 sec)
+mysql> SELECT * FROM college;
++---------+-------+------------------+-------+----------+
+| roll_no | name  | course           | class | fees     |
++---------+-------+------------------+-------+----------+
+|       1 | dolly | computer science | be    | 40000.00 |
+|       2 | rushi | AIDS             | te    | 50000.00 |
+|       3 | soham | civil engi       | se    | 30000.00 |
++---------+-------+------------------+-------+----------+
+3 rows in set (0.00 sec)
 
-mysql> create index idx_name on students(name);
-Query OK, 0 rows affected (0.05 sec)
+mysql> UPDATE college
+    -> SET fees = fees + 10000 WHERE class = 'be';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT fees + 10000 AS updated_fees FROM college
+    -> WHERE class = 'be';
++--------------+
+| updated_fees |
++--------------+
+|     60000.00 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM college;
++---------+-------+------------------+-------+----------+
+| roll_no | name  | course           | class | fees     |
++---------+-------+------------------+-------+----------+
+|       1 | dolly | computer science | be    | 50000.00 |
+|       2 | rushi | AIDS             | te    | 50000.00 |
+|       3 | soham | civil engi       | se    | 30000.00 |
++---------+-------+------------------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE college
+    -> SET fees = fees  - 10000 WHERE class = 'AIDS';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> SELECT fees - 10000 AS updated_fees FROM college
+    -> WHERE class = 'AIDS';
+Empty set (0.00 sec)
+
+mysql> SELECT * FROM college;
++---------+-------+------------------+-------+----------+
+| roll_no | name  | course           | class | fees     |
++---------+-------+------------------+-------+----------+
+|       1 | dolly | computer science | be    | 50000.00 |
+|       2 | rushi | AIDS             | te    | 50000.00 |
+|       3 | soham | civil engi       | se    | 30000.00 |
++---------+-------+------------------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE: Multiply fees by 2 where class is 'be'
+    -> -- UPDATE: Multiply fees by 2 where class is 'be'
+    ->
+    -> -- UPDATE: Multiply fees by 2 where class is 'be'
+    -> UPDATE college
+    -> SET fees = fees * 2
+    -> WHERE class = 'be';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ': Multiply fees by 2 where class is 'be'
+
+
+
+UPDATE college
+SET fees = fees * 2
+W' at line 1
+mysql> Multiply fees by 2 where class is 'te'
+    ->  UPDATE college
+    -> SET fees = fees * 2
+    ->  WHERE class = 'te';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Multiply fees by 2 where class is 'te'
+ UPDATE college
+SET fees = fees * 2
+ WHER' at line 1
+mysql> SELECT * FROM college;
++---------+-------+------------------+-------+----------+
+| roll_no | name  | course           | class | fees     |
++---------+-------+------------------+-------+----------+
+|       1 | dolly | computer science | be    | 50000.00 |
+|       2 | rushi | AIDS             | te    | 50000.00 |
+|       3 | soham | civil engi       | se    | 30000.00 |
++---------+-------+------------------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE: Divide fees by 10 where class is 'be'
+    -> -- UPDATE: Divide fees by 10 where class is 'be'
+    -> UPDATE college
+    -> SET fees = fees / 10
+    -> WHERE class = 'be';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ': Divide fees by 10 where class is 'be'
+
+UPDATE college
+SET fees = fees / 10
+WHE' at line 1
+mysql> UPDATE college
+    -> SET fees = fees / 10
+    -> WHERE class = 'be';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT: Show fees divided by 10
+    -> SELECT fees / 10 AS updated_fees
+    -> ^C
+mysql>  FROM college
+    -> WHERE class = 'be';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM college
+WHERE class = 'be'' at line 1
+mysql> SELECT * FROM college WHERE class = 'be';
++---------+-------+------------------+-------+---------+
+| roll_no | name  | course           | class | fees    |
++---------+-------+------------------+-------+---------+
+|       1 | dolly | computer science | be    | 5000.00 |
++---------+-------+------------------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM college;
++---------+-------+------------------+-------+----------+
+| roll_no | name  | course           | class | fees     |
++---------+-------+------------------+-------+----------+
+|       1 | dolly | computer science | be    |  5000.00 |
+|       2 | rushi | AIDS             | te    | 50000.00 |
+|       3 | soham | civil engi       | se    | 30000.00 |
++---------+-------+------------------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE: Set fees as remainder when divided by 3 where class is 'be'
+    -> UPDATE: Set fees as remainder when divided by 3 where class is 'be'
+    -> UPDATE college
+    -> SET fees = fees % 3
+    -> WHERE class = 'be';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ': Set fees as remainder when divided by 3 where class is 'be'
+UPDATE: Set fees a' at line 1
+mysql> UPDATE college
+    -> SET fees = fees % 3
+    -> WHERE class = 'be';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT: Show fees modulo 3
+    -> SELECT fees % 3 AS updated_fees
+    -> FROM college
+    -> WHERE class = 'be';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ': Show fees modulo 3
+SELECT fees % 3 AS updated_fees
+FROM college
+WHERE class = ' at line 1
+mysql> SELECT fees % 3 AS updated_fees
+    -> FROM college
+    -> WHERE class = 'be';
++--------------+
+| updated_fees |
++--------------+
+|         2.00 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM college;
++---------+-------+------------------+-------+----------+
+| roll_no | name  | course           | class | fees     |
++---------+-------+------------------+-------+----------+
+|       1 | dolly | computer science | be    |     2.00 |
+|       2 | rushi | AIDS             | te    | 50000.00 |
+|       3 | soham | civil engi       | se    | 30000.00 |
++---------+-------+------------------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE INDEX vedant ON college(name);
+Query OK, 0 rows affected (0.10 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> create index idx_department on students(department);
-Query OK, 0 rows affected (0.03 sec)
+mysql> CREATE UNIQUE INDEX college_unique_index ON college(name, course);
+Query OK, 0 rows affected (0.07 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> create index idx_cgpa on students(cgpa);
-Query OK, 0 rows affected (0.03 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> create index idx_city on students(city);
+mysql> DROP INDEX vedant ON college;
 Query OK, 0 rows affected (0.04 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> select * from students where department = 'computer science' and cgpa > 8.0;
-+----+--------------+------+--------+------------------+-----------------+------+-----------+---------+---------------------+
-| id | name         | age  | gender | department       | enrollment_date | cgpa | is_active | city    | created_at          |
-+----+--------------+------+--------+------------------+-----------------+------+-----------+---------+---------------------+
-|  1 | arjun sharma |   20 | m      | computer science | 2022-07-15      | 8.50 |         1 | delhi   | 2025-09-30 22:13:17 |
-|  5 | vijay singh  |   23 | m      | computer science | 2019-07-01      | 9.00 |         0 | chennai | 2025-09-30 22:13:17 |
-|  8 | priya yadav  |   19 | f      | computer science | 2023-07-18      | 8.40 |         1 | lucknow | 2025-09-30 22:13:17 |
-+----+--------------+------+--------+------------------+-----------------+------+-----------+---------+---------------------+
-3 rows in set (0.00 sec)
-
-mysql> select name, cgpa from students where is_active = true order by cgpa desc limit 5;
-+--------------+------+
-| name         | cgpa |
-+--------------+------+
-| kavya menon  | 9.10 |
-| meena rao    | 8.90 |
-| arjun sharma | 8.50 |
-| priya yadav  | 8.40 |
-| anita kumari | 8.10 |
-+--------------+------+
-5 rows in set (0.00 sec)
-
-mysql> select count(*) from students where gender = 'f' and city = 'mumbai';
-+----------+
-| count(*) |
-+----------+
-|        1 |
-+----------+
-1 row in set (0.00 sec)
-
-mysql> select department, avg(cgpa) from students group by department;
-+------------------------+-----------+
-| department             | avg(cgpa) |
-+------------------------+-----------+
-| civil                  |  8.200000 |
-| computer science       |  8.633333 |
-| electrical engineering |  9.000000 |
-| electronics            |  8.100000 |
-| information technology |  7.900000 |
-| mechanical             |  7.900000 |
-+------------------------+-----------+
-6 rows in set (0.00 sec)
+mysql> SHOW INDEX FROM college;
++---------+------------+----------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table   | Non_unique | Key_name             | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++---------+------------+----------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| college |          0 | PRIMARY              |            1 | roll_no     | A         |           3 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| college |          0 | college_unique_index |            1 | name        | A         |           3 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| college |          0 | college_unique_index |            2 | course      | A         |           3 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++---------+------------+----------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+3 rows in set (0.04 sec)
 
 mysql>
