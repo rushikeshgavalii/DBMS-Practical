@@ -1,0 +1,127 @@
+Microsoft Windows [Version 10.0.19045.6332]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MongoDB\Server\8.2\bin>mongosh
+Current Mongosh Log ID: 68e8d30696ab2878cacebea3
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
+Using MongoDB:          8.2.0
+Using Mongosh:          2.5.8
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-10-10T14:19:30.629+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use demoxyz
+switched to db demoxyz
+demoxyz> show collection;
+MongoshInvalidInputError: [COMMON-10001] 'collection' is not a valid argument for "show".
+demoxyz> db.createCollection('Fees');
+{ ok: 1 }
+demoxyz> db.Fees.insertone({rollno:101,name:'Om',Class:'Te',amount:45000,pdate:'12-09-25'});
+TypeError: db.Fees.insertone is not a function
+demoxyz> db.Fees.insertOne({rollno:101,name:'Om',Class:'Te',amount:45000,pdate:'12-09-25'});
+{
+  acknowledged: true,
+  insertedId: ObjectId('68e8d3dd96ab2878cacebea4')
+}
+demoxyz> db.Fees.insertMany([{rollno:102,name:'Manoj',Class:'Te',amount:40000,pdate:'13-09-25'}{rollno:103,name:'karan',class:'Be',amount:20000,pdate:'14-09-25'}]);
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:86)
+
+> 1 | db.Fees.insertMany([{rollno:102,name:'Manoj',Class:'Te',amount:40000,pdate:'13-09-25'}{rollno:103,name:'karan',class:'Be',amount:20000,pdate:'14-09-25'}]);
+    |                                                                                       ^
+  2 |
+
+demoxyz> db.Fees.insertMany([{rollno:102,name:'Manoj',Class:'Te',amount:40000,pdate:'13-09-25'}{rollno:103,name:'karan',class:'Be',amount:20000,pdate:'14-09-25'}]);
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:86)
+
+> 1 | db.Fees.insertMany([{rollno:102,name:'Manoj',Class:'Te',amount:40000,pdate:'13-09-25'}{rollno:103,name:'karan',class:'Be',amount:20000,pdate:'14-09-25'}]);
+    |                                                                                       ^
+  2 |
+
+demoxyz> db.Fees.insertMany([{rollno:102,name:'Manoj',Class:'Te',amount:40000,pdate:'13-09-25'},{rollno:103,name:'karan',class:'Be',amount:20000,pdate:'14-09-25'}]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68e8d5ff96ab2878cacebea5'),
+    '1': ObjectId('68e8d5ff96ab2878cacebea6')
+  }
+}
+demoxyz> db.Fees.find();
+[
+  {
+    _id: ObjectId('68e8d3dd96ab2878cacebea4'),
+    rollno: 101,
+    name: 'Om',
+    Class: 'Te',
+    amount: 45000,
+    pdate: '12-09-25'
+  },
+  {
+    _id: ObjectId('68e8d5ff96ab2878cacebea5'),
+    rollno: 102,
+    name: 'Manoj',
+    Class: 'Te',
+    amount: 40000,
+    pdate: '13-09-25'
+  },
+  {
+    _id: ObjectId('68e8d5ff96ab2878cacebea6'),
+    rollno: 103,
+    name: 'karan',
+    class: 'Be',
+    amount: 20000,
+    pdate: '14-09-25'
+  }
+]
+demoxyz> db.Fees.aggregate([{$group:{_id:nul,total_amount:{$sum:'$amount'}}}]);
+ReferenceError: nul is not defined
+demoxyz> db.Fees.aggregate([{$group:{_id:null,total_amount:{$sum:'$amount'}}}]);
+[ { _id: null, total_amount: 105000 } ]
+demoxyz> db.Fees.aggregate([{$group:{_id:'$Te',total_amount:{$sum:'$amount'}}}]);
+[ { _id: null, total_amount: 105000 } ]
+demoxyz> db.Fees.aggregate([{$group:{_id:null,total_amount:{$min:'$amount'}}}]);
+[ { _id: null, total_amount: 20000 } ]
+demoxyz> db.Fees.aggregate([{$group:{_id:null,total_amount:{$max:'$amount'}}}]);
+[ { _id: null, total_amount: 45000 } ]
+demoxyz> db.Fees.aggregate([{$group:{_id:null,total_amount:{$push:'$amount'}}}]);
+[ { _id: null, total_amount: [ 45000, 40000, 20000 ] } ]
+demoxyz> db.Fees.insertOne({rollno:104,name:'Chaitanya',class:'Te',amount:45000,pdate:'15-09-25'});
+{
+  acknowledged: true,
+  insertedId: ObjectId('68e8d81096ab2878cacebea7')
+}
+demoxyz> db.Fees.aggregate([{$group:{_id:null,total_amount:{$addToSet:'$amount'}}}]);
+[ { _id: null, total_amount: [ 40000, 45000, 20000 ] } ]
+demoxyz> db.Fees.aggregate([{$group:{_id:null,total_amount:{$push:'$amount'}}}]);
+[ { _id: null, total_amount: [ 45000, 40000, 20000, 45000 ] } ]
+demoxyz> db.Fees.aggregate([{$group:{_id:null,total_amount:{$first:'$amount'}}}]);
+[ { _id: null, total_amount: 45000 } ]
+demoxyz> db.Fees.aggregate([{$group:{_id:null,total_amount:{$last:'$amount'}}}]);
+[ { _id: null, total_amount: 45000 } ]
+demoxyz> db.Fees.createIndex();
+MongoshInvalidInputError: [COMMON-10001] Missing required argument at position 0 (Collection.createIndex)
+demoxyz> db.Fees.createIndexes();
+TypeError: Cannot read properties of undefined (reading 'map')
+demoxyz> db.Fees.getIndexes();
+[ { v: 2, key: { _id: 1 }, name: '_id_' } ]
+demoxyz> db.Fees.createIndex({name:1,class:1})
+name_1_class_1
+demoxyz> db.Fees.getIndexes();
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1, class: 1 }, name: 'name_1_class_1' }
+]
+demoxyz> db.Fees.createIndex({class:1},{spare:true})
+class_1
+demoxyz> db.Fees.getIndexes();
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1, class: 1 }, name: 'name_1_class_1' },
+  { v: 2, key: { class: 1 }, name: 'class_1' }
+]
+demoxyz>
